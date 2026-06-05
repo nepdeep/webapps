@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Personal App Bookmarks</title>
+  <title>Web Apps</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -201,8 +201,7 @@
       user-select: none;
     }
 
-    .add-btn,
-    .theme-btn {
+    .add-btn {
       height: 92px;
       min-width: 154px;
       border: 1px solid rgba(0, 243, 255, 0.3);
@@ -220,7 +219,41 @@
     }
 
     .theme-btn {
-      min-width: 126px;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(0, 243, 255, 0.55);
+      border-radius: 50%;
+      color: var(--neon-blue);
+      background: rgba(0, 243, 255, 0.04);
+      box-shadow: inset 0 0 18px rgba(0, 243, 255, 0.05), 0 0 12px rgba(0, 243, 255, 0.12);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .theme-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.55));
+    }
+
+    .theme-btn .moon-icon {
+      display: none;
+    }
+
+    body.light-mode .theme-btn .sun-icon {
+      display: none;
+    }
+
+    body.light-mode .theme-btn .moon-icon {
+      display: block;
     }
 
     .add-btn:hover,
@@ -728,6 +761,12 @@
         flex: 1;
       }
 
+      .theme-btn {
+        flex: 0 0 56px;
+        width: 56px;
+        min-width: 56px;
+      }
+
       .grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px;
@@ -789,7 +828,22 @@
         <div class="kbd"><span id="modKey">Ctrl</span><span>K</span></div>
       </div>
       <div class="topbar-actions">
-        <button class="theme-btn" id="themeButton" type="button" aria-pressed="false">Bright</button>
+        <button class="theme-btn" id="themeButton" type="button" aria-pressed="false" aria-label="Switch to bright theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.5"></circle>
+            <path d="M12 3.5v2"></path>
+            <path d="M12 18.5v2"></path>
+            <path d="M3.5 12h2"></path>
+            <path d="M18.5 12h2"></path>
+            <path d="m6.1 6.1 1.4 1.4"></path>
+            <path d="m16.5 16.5 1.4 1.4"></path>
+            <path d="m17.9 6.1-1.4 1.4"></path>
+            <path d="m7.5 16.5-1.4 1.4"></path>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 14.6A7.5 7.5 0 0 1 9.4 4a8.5 8.5 0 1 0 10.6 10.6Z"></path>
+          </svg>
+        </button>
         <button class="add-btn" id="addButton">+ Add Link</button>
       </div>
     </section>
@@ -887,7 +941,6 @@
     function applyTheme(theme) {
       const isBright = theme === "bright";
       document.body.classList.toggle("light-mode", isBright);
-      themeButton.textContent = isBright ? "Dark" : "Bright";
       themeButton.setAttribute("aria-pressed", String(isBright));
       themeButton.setAttribute("aria-label", isBright ? "Switch to dark theme" : "Switch to bright theme");
     }
