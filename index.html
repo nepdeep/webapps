@@ -7,21 +7,21 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Cyber-Glass Palette copied/adapted from Timer.html */
-      --bg-dark: #050505;
-      --glass-bg: rgba(20, 20, 30, 0.70);
-      --glass-bg-strong: rgba(10, 10, 15, 0.92);
-      --glass-border: rgba(255, 255, 255, 0.08);
+      /* Terminal Neon Palette */
+      --bg-dark: #020403;
+      --glass-bg: rgba(3, 14, 11, 0.88);
+      --glass-bg-strong: rgba(1, 8, 6, 0.97);
+      --glass-border: rgba(0, 255, 157, 0.18);
       --neon-green: #00ff9d;
-      --neon-red: #ff0055;
-      --neon-blue: #00f3ff;
-      --neon-yellow: #ffe600;
-      --neon-purple: #bd00ff;
-      --text-primary: #ffffff;
-      --text-muted: #8899a6;
-      --input-bg: rgba(0, 0, 0, 0.30);
+      --neon-red: #ff3366;
+      --neon-blue: #00f5d4;
+      --neon-yellow: #d7ff6a;
+      --neon-purple: #8c5cff;
+      --text-primary: #e8fff5;
+      --text-muted: #72a993;
+      --input-bg: rgba(0, 12, 8, 0.72);
       --font-display: 'JetBrains Mono', monospace;
-      --font-body: 'Inter', sans-serif;
+      --font-body: 'JetBrains Mono', monospace;
 
       /* Existing app variable aliases */
       --bg: var(--bg-dark);
@@ -33,9 +33,9 @@
       --accent: var(--neon-blue);
       --danger: var(--neon-red);
       --radius: 8px;
-      --blur: blur(20px);
-      --shadow: 0 0 30px rgba(0, 243, 255, 0.16), 0 8px 32px rgba(0, 0, 0, 0.35);
-      --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.18);
+      --blur: blur(8px);
+      --shadow: 0 0 0 1px rgba(0, 255, 157, 0.08), 0 16px 40px rgba(0, 0, 0, 0.44);
+      --shadow-soft: 0 0 0 1px rgba(0, 255, 157, 0.04), 0 10px 28px rgba(0, 0, 0, 0.28);
     }
 
     * {
@@ -53,8 +53,8 @@
       color: var(--text-primary);
       background-color: var(--bg-dark);
       background-image:
-        radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.15), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.15), transparent 25%);
+        linear-gradient(180deg, rgba(0, 255, 157, 0.045), transparent 36%),
+        linear-gradient(90deg, rgba(0, 245, 212, 0.04), transparent 45%);
       overflow-x: hidden;
       transition: background-color 0.3s ease, color 0.3s ease;
       touch-action: manipulation;
@@ -67,9 +67,9 @@
       pointer-events: none;
       z-index: -1;
       background:
-        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-      background-size: 42px 42px;
+        linear-gradient(rgba(0, 255, 157, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 157, 0.045) 1px, transparent 1px);
+      background-size: 28px 28px;
       mask-image: radial-gradient(circle at center, #000 0%, transparent 78%);
     }
 
@@ -90,8 +90,8 @@
       --shadow-soft: 0 8px 32px rgba(15, 23, 42, 0.08);
       color-scheme: light;
       background-image:
-        radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.05), transparent 25%),
-        radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.05), transparent 25%);
+        linear-gradient(180deg, rgba(0, 142, 179, 0.08), transparent 38%),
+        linear-gradient(90deg, rgba(0, 168, 107, 0.06), transparent 48%);
     }
 
     body.light-mode::before {
@@ -125,11 +125,39 @@
       margin-bottom: 46px;
     }
 
-    .topbar-actions {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      flex: 0 0 auto;
+    .sidebar-toggle {
+      width: 92px;
+      height: 92px;
+      flex: 0 0 92px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(0, 255, 157, 0.32);
+      border-radius: 8px;
+      color: var(--neon-green);
+      background: rgba(0, 255, 157, 0.045);
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sidebar-toggle:hover {
+      transform: scale(1.02) translateY(-2px);
+      background: var(--neon-green);
+      color: #000;
+      box-shadow: 0 0 18px rgba(0, 255, 157, 0.42);
+    }
+
+    .burger-lines {
+      width: 28px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .burger-lines span {
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      box-shadow: 0 0 10px rgba(0, 255, 157, 0.42);
     }
 
     .search-shell {
@@ -141,7 +169,7 @@
       padding: 0 28px;
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
-      border-radius: 12px;
+      border-radius: 8px;
       box-shadow: var(--shadow-soft);
       backdrop-filter: var(--blur);
       -webkit-backdrop-filter: var(--blur);
@@ -159,16 +187,16 @@
     }
 
     .search-shell:focus-within {
-      border-color: rgba(0, 243, 255, 0.48);
-      box-shadow: 0 0 28px rgba(0, 243, 255, 0.18), var(--shadow-soft);
+      border-color: rgba(0, 245, 212, 0.52);
+      box-shadow: 0 0 0 1px rgba(0, 245, 212, 0.16), 0 0 22px rgba(0, 255, 157, 0.12), var(--shadow-soft);
     }
 
     .search-shell svg {
       width: 34px;
       height: 34px;
-      color: var(--neon-blue);
+      color: var(--neon-green);
       flex: 0 0 auto;
-      filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.35));
+      filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.35));
     }
 
     #searchInput {
@@ -193,7 +221,7 @@
       padding: 10px 13px;
       border: 1px solid var(--glass-border);
       border-radius: 8px;
-      color: var(--neon-blue);
+      color: var(--neon-green);
       background: var(--input-bg);
       font-family: var(--font-display);
       font-size: 17px;
@@ -201,67 +229,158 @@
       user-select: none;
     }
 
-    .add-btn {
-      height: 92px;
-      min-width: 154px;
-      border: 1px solid rgba(0, 243, 255, 0.3);
+    .sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.52);
+      opacity: 0;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: opacity 0.2s ease;
+    }
+
+    .sidebar-backdrop.open {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: auto;
+      bottom: 0;
+      left: -360px;
+      z-index: 41;
+      width: min(330px, calc(100vw - 28px));
+      padding: 24px;
+      border-right: 1px solid rgba(0, 255, 157, 0.26);
+      background: var(--glass-bg-strong);
+      box-shadow: 24px 0 60px rgba(0, 0, 0, 0.52), 0 0 26px rgba(0, 255, 157, 0.10);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      transition: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    body.light-mode .sidebar {
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 24px 0 60px rgba(15, 23, 42, 0.16), 0 0 30px rgba(0, 142, 179, 0.10);
+    }
+
+    body.light-mode .sidebar-backdrop {
+      background: rgba(15, 23, 42, 0.28);
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .sidebar-head h2 {
+      margin: 0;
+      color: var(--neon-green);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-shadow: 0 0 14px rgba(0, 255, 157, 0.22);
+    }
+
+    .sidebar-close {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--glass-border);
       border-radius: 8px;
-      color: var(--neon-blue);
-      background: rgba(0, 243, 255, 0.05);
-      box-shadow: var(--shadow-soft);
+      background: var(--input-bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 25px;
+      line-height: 1;
+      transition: all 0.2s;
+    }
+
+    .sidebar-close:hover {
+      border-color: var(--neon-red);
+      background: var(--neon-red);
+      color: #fff;
+      box-shadow: 0 0 18px rgba(255, 0, 85, 0.42);
+    }
+
+    .sidebar-actions {
+      display: grid;
+      gap: 12px;
+    }
+
+    .sidebar-action {
+      width: 100%;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 14px;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      background: rgba(0, 255, 157, 0.035);
+      color: var(--text-primary);
       cursor: pointer;
       font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 1rem;
+      font-size: 0.86rem;
+      font-weight: 850;
+      text-align: left;
       text-transform: uppercase;
       letter-spacing: 0;
       transition: all 0.2s;
     }
 
-    .theme-btn {
-      width: 44px;
-      height: 44px;
-      min-width: 44px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(0, 243, 255, 0.55);
-      border-radius: 50%;
-      color: var(--neon-blue);
-      background: rgba(0, 243, 255, 0.04);
-      box-shadow: inset 0 0 18px rgba(0, 243, 255, 0.05), 0 0 12px rgba(0, 243, 255, 0.12);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .theme-btn svg {
-      width: 18px;
-      height: 18px;
+    .sidebar-action svg {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+      color: var(--neon-green);
       stroke: currentColor;
       stroke-width: 2.4;
       stroke-linecap: round;
       stroke-linejoin: round;
       fill: none;
-      filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.55));
+      filter: drop-shadow(0 0 8px rgba(0, 255, 157, 0.30));
     }
 
-    .theme-btn .moon-icon {
+    .sidebar-action:hover {
+      border-color: rgba(0, 245, 212, 0.40);
+      background: rgba(0, 255, 157, 0.08);
+      color: var(--neon-green);
+      box-shadow: 0 0 18px rgba(0, 255, 157, 0.15);
+      transform: translateX(2px);
+    }
+
+    .sidebar-action.primary-action {
+      border-color: rgba(0, 255, 157, 0.34);
+      color: var(--neon-green);
+    }
+
+    .theme-action .moon-icon {
       display: none;
     }
 
-    body.light-mode .theme-btn .sun-icon {
+    body.light-mode .theme-action .sun-icon {
       display: none;
     }
 
-    body.light-mode .theme-btn .moon-icon {
+    body.light-mode .theme-action .moon-icon {
       display: block;
-    }
-
-    .add-btn:hover,
-    .theme-btn:hover {
-      transform: scale(1.02) translateY(-2px);
-      background: var(--neon-blue);
-      color: #000;
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
     }
 
     .grid {
@@ -295,17 +414,17 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.10), transparent 45%);
+      background: linear-gradient(180deg, rgba(0, 255, 157, 0.09), transparent 48%);
       opacity: 0;
       transition: opacity 0.18s ease;
       pointer-events: none;
     }
 
     .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 0 30px rgba(0, 243, 255, 0.18), 0 12px 36px rgba(0, 0, 0, 0.32);
-      border-color: rgba(0, 243, 255, 0.42);
-      background: rgba(20, 20, 30, 0.82);
+      transform: translateY(-3px);
+      box-shadow: 0 0 0 1px rgba(0, 245, 212, 0.12), 0 14px 34px rgba(0, 0, 0, 0.38);
+      border-color: rgba(0, 245, 212, 0.42);
+      background: rgba(2, 18, 13, 0.94);
     }
 
     body.light-mode .card:hover {
@@ -330,7 +449,7 @@
       border-radius: 8px;
       background: var(--input-bg);
       border: 1px solid var(--glass-border);
-      box-shadow: inset 0 0 18px rgba(0, 243, 255, 0.06), 0 0 18px rgba(0, 0, 0, 0.22);
+      box-shadow: inset 0 0 16px rgba(0, 255, 157, 0.07), 0 0 16px rgba(0, 0, 0, 0.24);
       overflow: hidden;
       position: relative;
       z-index: 1;
@@ -350,13 +469,13 @@
       border-radius: 8px;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, rgba(0, 243, 255, 0.85), rgba(189, 0, 255, 0.8));
+      background: linear-gradient(135deg, rgba(0, 255, 157, 0.92), rgba(0, 245, 212, 0.82));
       color: #000;
       font-family: var(--font-display);
       font-size: 24px;
       font-weight: 900;
       letter-spacing: 0;
-      box-shadow: 0 0 22px rgba(0, 243, 255, 0.22);
+      box-shadow: 0 0 18px rgba(0, 255, 157, 0.22);
     }
 
     .name {
@@ -406,10 +525,10 @@
     }
 
     .menu-btn:hover {
-      color: var(--neon-blue);
-      border-color: rgba(0, 243, 255, 0.26);
-      background: rgba(0, 243, 255, 0.06);
-      box-shadow: 0 0 14px rgba(0, 243, 255, 0.18);
+      color: var(--neon-green);
+      border-color: rgba(0, 255, 157, 0.28);
+      background: rgba(0, 255, 157, 0.06);
+      box-shadow: 0 0 14px rgba(0, 255, 157, 0.16);
       transform: none;
     }
 
@@ -432,7 +551,7 @@
       padding: 8px;
       border: 1px solid var(--glass-border);
       border-radius: 8px;
-      background: rgba(10, 10, 15, 0.96);
+      background: var(--glass-bg-strong);
       box-shadow: var(--shadow);
       backdrop-filter: var(--blur);
       -webkit-backdrop-filter: var(--blur);
@@ -466,9 +585,9 @@
     }
 
     .card-menu button:hover {
-      border-color: rgba(0, 243, 255, 0.22);
-      background: rgba(0, 243, 255, 0.06);
-      color: var(--neon-blue);
+      border-color: rgba(0, 255, 157, 0.24);
+      background: rgba(0, 255, 157, 0.07);
+      color: var(--neon-green);
       box-shadow: none;
       transform: none;
     }
@@ -529,9 +648,9 @@
       padding: 26px;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
-      background: rgba(10, 10, 15, 0.96);
+      background: var(--glass-bg-strong);
       color: var(--text-primary);
-      box-shadow: 0 0 42px rgba(0, 243, 255, 0.14), 0 35px 90px rgba(0, 0, 0, 0.48);
+      box-shadow: 0 0 0 1px rgba(0, 255, 157, 0.08), 0 35px 90px rgba(0, 0, 0, 0.52);
       backdrop-filter: var(--blur);
       -webkit-backdrop-filter: var(--blur);
     }
@@ -553,12 +672,12 @@
 
     .modal h2 {
       margin: 0;
-      color: var(--neon-blue);
+      color: var(--neon-green);
       font-family: var(--font-display);
       font-size: 26px;
       letter-spacing: 0;
       text-transform: uppercase;
-      text-shadow: 0 0 14px rgba(0, 243, 255, 0.18);
+      text-shadow: 0 0 14px rgba(0, 255, 157, 0.22);
     }
 
     .close-btn {
@@ -605,7 +724,7 @@
       border: 1px solid var(--glass-border);
       border-radius: 8px;
       outline: 0;
-      color: var(--neon-blue);
+      color: var(--neon-green);
       background: var(--input-bg);
       font-family: var(--font-display);
       font-size: 16px;
@@ -613,9 +732,9 @@
     }
 
     input:focus {
-      border-color: rgba(0, 243, 255, 0.55);
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.16);
-      background: rgba(0, 0, 0, 0.48);
+      border-color: rgba(0, 255, 157, 0.50);
+      box-shadow: 0 0 18px rgba(0, 255, 157, 0.13);
+      background: rgba(0, 12, 8, 0.86);
     }
 
     .hint {
@@ -660,46 +779,16 @@
     }
 
     .primary {
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      background: rgba(0, 243, 255, 0.05);
-      color: var(--neon-blue);
+      border: 1px solid rgba(0, 255, 157, 0.32);
+      background: rgba(0, 255, 157, 0.055);
+      color: var(--neon-green);
     }
 
     .primary:hover {
-      background: var(--neon-blue);
+      background: var(--neon-green);
       color: #000;
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+      box-shadow: 0 0 20px rgba(0, 255, 157, 0.42);
       transform: scale(1.02);
-    }
-
-    .toolbar {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 30px;
-    }
-
-    .tiny-btn {
-      border: 1px solid var(--glass-border);
-      background: rgba(0, 243, 255, 0.03);
-      color: var(--text-muted);
-      border-radius: 8px;
-      padding: 11px 14px;
-      cursor: pointer;
-      font-family: var(--font-display);
-      font-size: 0.82rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0;
-      transition: all 0.2s;
-    }
-
-    .tiny-btn:hover {
-      border-color: rgba(0, 243, 255, 0.35);
-      color: var(--neon-blue);
-      background: rgba(0, 243, 255, 0.07);
-      box-shadow: 0 0 18px rgba(0, 243, 255, 0.22);
-      transform: translateY(-1px);
     }
 
     @media (max-width: 1320px) {
@@ -725,13 +814,20 @@
       }
 
       .topbar {
-        flex-direction: column;
-        align-items: stretch;
+        gap: 10px;
         margin-bottom: 22px;
       }
 
-      .topbar-actions {
-        width: 100%;
+      .sidebar-toggle {
+        width: 58px;
+        height: 68px;
+        flex-basis: 58px;
+        border-radius: 10px;
+      }
+
+      .burger-lines {
+        width: 23px;
+        gap: 5px;
       }
 
       .search-shell {
@@ -753,72 +849,193 @@
         display: none;
       }
 
-      .add-btn,
-      .theme-btn {
-        height: 56px;
-        min-width: 0;
-        font-size: 0.85rem;
-        flex: 1;
-      }
-
-      .theme-btn {
-        flex: 0 0 56px;
-        width: 56px;
-        min-width: 56px;
-      }
-
       .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
+        grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+        gap: 10px;
       }
 
       .card {
         aspect-ratio: 1 / 1;
-        min-height: 0;
-        padding: 24px 14px 18px;
+        min-height: 104px;
+        padding: 14px 8px 10px;
       }
 
       .icon-wrap {
-        width: 44px;
-        height: 44px;
-        margin: 3px auto 14px;
+        width: 38px;
+        height: 38px;
+        margin: 0 auto 8px;
       }
 
       .icon-wrap img,
       .fallback-icon {
-        width: 36px;
-        height: 36px;
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+      }
+
+      .fallback-icon {
+        font-size: 17px;
       }
 
       .name {
-        font-size: 15px;
+        display: -webkit-box;
+        margin-bottom: 0;
+        font-size: 12px;
+        line-height: 1.15;
+        white-space: normal;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
       }
 
       .domain {
-        font-size: 13px;
+        display: none;
       }
 
       .menu-btn {
-        top: 13px;
-        right: 13px;
+        top: 6px;
+        right: 6px;
+        width: 26px;
+        height: 26px;
+        gap: 3px;
+        grid-template-rows: repeat(3, 3px);
       }
 
-      .toolbar {
-        justify-content: center;
-        flex-wrap: wrap;
+      .menu-btn span,
+      .menu-btn::before,
+      .menu-btn::after {
+        width: 3px;
+        height: 3px;
+      }
+
+      .card-menu {
+        top: 34px;
+        right: 6px;
+        width: 132px;
+      }
+
+      .sidebar {
+        padding: 20px;
       }
     }
 
     @media (max-width: 420px) {
+      .page {
+        width: min(100% - 20px, 1740px);
+      }
+
+      .sidebar {
+        width: min(296px, calc(100vw - 18px));
+        padding: 18px;
+      }
+
       .grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+        gap: 8px;
+      }
+
+      .card {
+        min-height: 92px;
+        padding: 12px 6px 8px;
+      }
+
+      .icon-wrap {
+        width: 34px;
+        height: 34px;
+        margin-bottom: 7px;
+      }
+
+      .icon-wrap img,
+      .fallback-icon {
+        width: 28px;
+        height: 28px;
+      }
+
+      .fallback-icon {
+        font-size: 16px;
+      }
+
+      .name {
+        font-size: 11px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <aside class="sidebar" id="sidebar" aria-label="App controls" aria-hidden="true">
+    <div class="sidebar-head">
+      <h2>Menu</h2>
+      <button class="sidebar-close" id="closeSidebar" type="button" aria-label="Close menu">&times;</button>
+    </div>
+
+    <div class="sidebar-actions">
+      <button class="sidebar-action primary-action" id="addButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 5v14"></path>
+          <path d="M5 12h14"></path>
+        </svg>
+        <span>Add Link</span>
+      </button>
+
+      <button class="sidebar-action theme-action" id="themeButton" type="button" aria-pressed="false" aria-label="Switch to light theme">
+        <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="3.5"></circle>
+          <path d="M12 3.5v2"></path>
+          <path d="M12 18.5v2"></path>
+          <path d="M3.5 12h2"></path>
+          <path d="M18.5 12h2"></path>
+          <path d="m6.1 6.1 1.4 1.4"></path>
+          <path d="m16.5 16.5 1.4 1.4"></path>
+          <path d="m17.9 6.1-1.4 1.4"></path>
+          <path d="m7.5 16.5-1.4 1.4"></path>
+        </svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 14.6A7.5 7.5 0 0 1 9.4 4a8.5 8.5 0 1 0 10.6 10.6Z"></path>
+        </svg>
+        <span id="themeButtonText">Light Theme</span>
+      </button>
+
+      <button class="sidebar-action" id="exportButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 16V4"></path>
+          <path d="m7 9 5-5 5 5"></path>
+          <path d="M5 20h14"></path>
+        </svg>
+        <span>Export</span>
+      </button>
+
+      <button class="sidebar-action" id="importButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 4v12"></path>
+          <path d="m7 11 5 5 5-5"></path>
+          <path d="M5 20h14"></path>
+        </svg>
+        <span>Import</span>
+      </button>
+
+      <button class="sidebar-action" id="resetButton" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"></path>
+          <path d="M4.5 5.5v5h5"></path>
+        </svg>
+        <span>Reset</span>
+      </button>
+
+      <input id="importFile" type="file" accept="application/json" hidden />
+    </div>
+  </aside>
+
   <main class="page">
     <section class="topbar">
+      <button class="sidebar-toggle" id="openSidebar" type="button" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
+        <span class="burger-lines" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+
       <div class="search-shell">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M10.75 18.5a7.75 7.75 0 1 1 0-15.5 7.75 7.75 0 0 1 0 15.5Z" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"/>
@@ -827,35 +1044,9 @@
         <input id="searchInput" type="search" placeholder="Search for apps, websites, bookmarks..." autocomplete="off" />
         <div class="kbd"><span id="modKey">Ctrl</span><span>K</span></div>
       </div>
-      <div class="topbar-actions">
-        <button class="theme-btn" id="themeButton" type="button" aria-pressed="false" aria-label="Switch to bright theme">
-          <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="3.5"></circle>
-            <path d="M12 3.5v2"></path>
-            <path d="M12 18.5v2"></path>
-            <path d="M3.5 12h2"></path>
-            <path d="M18.5 12h2"></path>
-            <path d="m6.1 6.1 1.4 1.4"></path>
-            <path d="m16.5 16.5 1.4 1.4"></path>
-            <path d="m17.9 6.1-1.4 1.4"></path>
-            <path d="m7.5 16.5-1.4 1.4"></path>
-          </svg>
-          <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20 14.6A7.5 7.5 0 0 1 9.4 4a8.5 8.5 0 1 0 10.6 10.6Z"></path>
-          </svg>
-        </button>
-        <button class="add-btn" id="addButton">+ Add Link</button>
-      </div>
     </section>
 
     <section class="grid" id="grid"></section>
-
-    <div class="toolbar">
-      <button class="tiny-btn" id="exportButton">Export</button>
-      <button class="tiny-btn" id="importButton">Import</button>
-      <input id="importFile" type="file" accept="application/json" hidden />
-      <button class="tiny-btn" id="resetButton">Reset</button>
-    </div>
   </main>
 
   <div class="modal-backdrop" id="modalBackdrop">
@@ -892,7 +1083,7 @@
 
   <script>
     const STORAGE_KEY = "personal_bookmark_app_store_v1";
-    const THEME_KEY = "personal_bookmark_theme_v1";
+    const THEME_KEY = "personal_bookmark_theme_v2";
 
     const defaults = [
       { name: "Google", url: "https://google.com" },
@@ -920,8 +1111,13 @@
 
     const grid = document.getElementById("grid");
     const searchInput = document.getElementById("searchInput");
+    const openSidebar = document.getElementById("openSidebar");
+    const closeSidebar = document.getElementById("closeSidebar");
+    const sidebar = document.getElementById("sidebar");
+    const sidebarBackdrop = document.getElementById("sidebarBackdrop");
     const addButton = document.getElementById("addButton");
     const themeButton = document.getElementById("themeButton");
+    const themeButtonText = document.getElementById("themeButtonText");
     const modalBackdrop = document.getElementById("modalBackdrop");
     const bookmarkForm = document.getElementById("bookmarkForm");
     const modalTitle = document.getElementById("modalTitle");
@@ -942,12 +1138,13 @@
       const isBright = theme === "bright";
       document.body.classList.toggle("light-mode", isBright);
       themeButton.setAttribute("aria-pressed", String(isBright));
-      themeButton.setAttribute("aria-label", isBright ? "Switch to dark theme" : "Switch to bright theme");
+      themeButton.setAttribute("aria-label", isBright ? "Switch to terminal theme" : "Switch to light theme");
+      themeButtonText.textContent = isBright ? "Terminal Theme" : "Light Theme";
     }
 
     function loadTheme() {
       const savedTheme = localStorage.getItem(THEME_KEY);
-      applyTheme(savedTheme === "bright" ? "bright" : "dark");
+      applyTheme(savedTheme === "bright" ? "bright" : "terminal");
     }
 
     function uid() {
@@ -998,6 +1195,23 @@
 
     function save() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(bookmarks));
+    }
+
+    function setSidebar(open) {
+      sidebar.classList.toggle("open", open);
+      sidebarBackdrop.classList.toggle("open", open);
+      sidebar.style.left = open ? "0" : "-360px";
+      sidebar.setAttribute("aria-hidden", String(!open));
+      openSidebar.setAttribute("aria-expanded", String(open));
+    }
+
+    function openSidebarNow() {
+      closeMenus();
+      setSidebar(true);
+    }
+
+    function closeSidebarNow() {
+      setSidebar(false);
     }
 
     function closeMenus() {
@@ -1140,11 +1354,18 @@
     });
 
     searchInput.addEventListener("input", render);
-    addButton.addEventListener("click", () => openModal());
+    openSidebar.addEventListener("click", openSidebarNow);
+    closeSidebar.addEventListener("click", closeSidebarNow);
+    sidebarBackdrop.addEventListener("click", closeSidebarNow);
+    addButton.addEventListener("click", () => {
+      closeSidebarNow();
+      openModal();
+    });
     themeButton.addEventListener("click", () => {
-      const nextTheme = document.body.classList.contains("light-mode") ? "dark" : "bright";
+      const nextTheme = document.body.classList.contains("light-mode") ? "terminal" : "bright";
       localStorage.setItem(THEME_KEY, nextTheme);
       applyTheme(nextTheme);
+      closeSidebarNow();
     });
     closeModal.addEventListener("click", closeModalNow);
     cancelButton.addEventListener("click", closeModalNow);
@@ -1165,6 +1386,7 @@
       }
       if (event.key === "Escape") {
         closeMenus();
+        if (sidebar.classList.contains("open")) closeSidebarNow();
         if (modalBackdrop.classList.contains("open")) closeModalNow();
       }
     });
@@ -1176,9 +1398,13 @@
       a.download = "bookmarks.json";
       a.click();
       URL.revokeObjectURL(a.href);
+      closeSidebarNow();
     });
 
-    importButton.addEventListener("click", () => importFile.click());
+    importButton.addEventListener("click", () => {
+      importFile.click();
+      closeSidebarNow();
+    });
 
     importFile.addEventListener("change", async () => {
       const file = importFile.files[0];
@@ -1208,6 +1434,7 @@
       localStorage.removeItem(STORAGE_KEY);
       load();
       render();
+      closeSidebarNow();
     });
 
     loadTheme();
