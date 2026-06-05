@@ -1088,6 +1088,11 @@
 
     searchInput.addEventListener("input", render);
     addButton.addEventListener("click", () => openModal());
+    themeButton.addEventListener("click", () => {
+      const nextTheme = document.body.classList.contains("light-mode") ? "dark" : "bright";
+      localStorage.setItem(THEME_KEY, nextTheme);
+      applyTheme(nextTheme);
+    });
     closeModal.addEventListener("click", closeModalNow);
     cancelButton.addEventListener("click", closeModalNow);
 
@@ -1152,6 +1157,7 @@
       render();
     });
 
+    loadTheme();
     load();
     render();
   </script>
