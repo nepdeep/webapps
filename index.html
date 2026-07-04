@@ -441,6 +441,25 @@
       opacity: 1;
     }
 
+    .card.drop-move-target {
+      border-color: rgba(0, 255, 157, 0.86);
+      background: rgba(0, 255, 157, 0.12);
+      box-shadow: 0 0 0 1px rgba(0, 255, 157, 0.28), 0 0 24px rgba(0, 255, 157, 0.28), var(--shadow-soft);
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    .card.drop-merge-target {
+      border-color: rgba(255, 51, 102, 0.92);
+      background: rgba(255, 51, 102, 0.12);
+      box-shadow: 0 0 0 1px rgba(255, 51, 102, 0.32), 0 0 28px rgba(255, 51, 102, 0.34), var(--shadow-soft);
+      transform: scale(1.03);
+    }
+
+    .card.drop-move-target::before,
+    .card.drop-merge-target::before {
+      opacity: 1;
+    }
+
     .card:active {
       transform: translateY(-1px);
     }
@@ -519,6 +538,58 @@
       font-weight: 900;
       letter-spacing: 0;
       box-shadow: 0 0 18px rgba(0, 255, 157, 0.22);
+    }
+
+    .folder-card .icon-wrap {
+      background:
+        linear-gradient(135deg, rgba(0, 255, 157, 0.12), rgba(140, 92, 255, 0.11)),
+        var(--input-bg);
+      border-color: rgba(0, 245, 212, 0.30);
+    }
+
+    .folder-preview {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3px;
+      padding: 3px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(0, 255, 157, 0.16);
+    }
+
+    .folder-mini {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 5px;
+      overflow: hidden;
+      background: rgba(0, 255, 157, 0.08);
+      border: 1px solid rgba(0, 255, 157, 0.10);
+    }
+
+    .folder-mini.empty {
+      opacity: 0.36;
+    }
+
+    .folder-mini img,
+    .folder-mini .fallback-icon {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      box-shadow: none;
+      filter: none;
+    }
+
+    .folder-mini img {
+      padding: 2px;
+      object-fit: contain;
+    }
+
+    .folder-mini .fallback-icon {
+      font-size: 9px;
     }
 
     .name {
@@ -663,6 +734,145 @@
       font-family: var(--font-display);
       font-size: 26px;
       letter-spacing: 0;
+    }
+
+    .folder-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 45;
+      display: none;
+      overflow: auto;
+      padding: 1px 0 70px;
+      background:
+        linear-gradient(180deg, rgba(0, 255, 157, 0.08), transparent 42%),
+        rgba(0, 0, 0, 0.70);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    body.light-mode .folder-layer {
+      background:
+        linear-gradient(180deg, rgba(0, 142, 179, 0.10), transparent 42%),
+        rgba(238, 242, 246, 0.82);
+    }
+
+    .folder-layer.open {
+      display: block;
+    }
+
+    .folder-shell {
+      width: min(980px, calc(100% - 52px));
+      margin: 58px auto 0;
+    }
+
+    .folder-head {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 26px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .folder-head h2 {
+      margin: 0 0 6px;
+      color: var(--neon-green);
+      font-family: var(--font-display);
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-shadow: 0 0 18px rgba(0, 255, 157, 0.22);
+    }
+
+    .folder-head p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .folder-close {
+      width: 56px;
+      height: 56px;
+      flex: 0 0 56px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: var(--neon-green);
+      background: var(--input-bg);
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.2s;
+    }
+
+    .folder-close:hover {
+      border-color: rgba(255, 51, 102, 0.68);
+      background: rgba(255, 51, 102, 0.18);
+      color: var(--neon-red);
+      box-shadow: 0 0 20px rgba(255, 51, 102, 0.28);
+      transform: scale(1.02);
+    }
+
+    .folder-close svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+    }
+
+    .folder-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 18px;
+    }
+
+    .folder-grid .card {
+      aspect-ratio: auto;
+      min-height: 164px;
+      padding: 20px 14px 16px;
+      justify-content: flex-start;
+    }
+
+    .folder-grid .icon-wrap {
+      width: 66px;
+      height: 66px;
+      margin: 4px auto 14px;
+      flex: 0 0 auto;
+    }
+
+    .folder-grid .icon-wrap img,
+    .folder-grid .fallback-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 8px;
+    }
+
+    .folder-grid .fallback-icon {
+      font-size: 24px;
+    }
+
+    .folder-grid .name {
+      display: -webkit-box;
+      width: 100%;
+      min-height: 38px;
+      margin: 0 0 6px;
+      font-size: 15px;
+      line-height: 1.22;
+      white-space: normal;
+      overflow: hidden;
+      text-overflow: clip;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .folder-grid .domain {
+      display: block;
+      width: 100%;
+      font-size: 12px;
+      line-height: 1.2;
     }
 
     .modal-backdrop {
@@ -916,6 +1126,17 @@
         border-radius: 7px;
       }
 
+      .folder-preview {
+        width: 30px;
+        height: 30px;
+        gap: 2px;
+        padding: 2px;
+      }
+
+      .folder-mini .fallback-icon {
+        font-size: 7px;
+      }
+
       .fallback-icon {
         font-size: 17px;
       }
@@ -956,6 +1177,60 @@
         width: 132px;
       }
 
+      .folder-shell {
+        width: min(100% - 28px, 1740px);
+        margin-top: 24px;
+      }
+
+      .folder-head {
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .folder-close {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+      }
+
+      .folder-grid {
+        grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+        gap: 10px;
+      }
+
+      .folder-grid .card {
+        min-height: 136px;
+        padding: 13px 8px 10px;
+      }
+
+      .folder-grid .icon-wrap {
+        width: 46px;
+        height: 46px;
+        margin: 0 auto 9px;
+      }
+
+      .folder-grid .icon-wrap img,
+      .folder-grid .fallback-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .folder-grid .fallback-icon {
+        font-size: 18px;
+      }
+
+      .folder-grid .name {
+        min-height: 28px;
+        margin-bottom: 4px;
+        font-size: 12px;
+        line-height: 1.16;
+      }
+
+      .folder-grid .domain {
+        display: block;
+        font-size: 10px;
+      }
+
       .sidebar {
         padding: 20px;
       }
@@ -976,6 +1251,10 @@
         gap: 8px;
       }
 
+      .folder-grid {
+        grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+      }
+
       .card {
         min-height: 92px;
         padding: 12px 6px 8px;
@@ -993,11 +1272,24 @@
         height: 28px;
       }
 
+      .folder-preview {
+        width: 28px;
+        height: 28px;
+      }
+
       .fallback-icon {
         font-size: 16px;
       }
 
       .name {
+        font-size: 11px;
+      }
+
+      .folder-grid .card {
+        min-height: 130px;
+      }
+
+      .folder-grid .name {
         font-size: 11px;
       }
     }
@@ -1092,6 +1384,24 @@
     <section class="grid" id="grid"></section>
   </main>
 
+  <section class="folder-layer" id="folderLayer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="folderTitle">
+    <div class="folder-shell">
+      <div class="folder-head">
+        <button class="folder-close" id="folderClose" type="button" aria-label="Close folder">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M18 6 6 18"></path>
+            <path d="M6 6l12 12"></path>
+          </svg>
+        </button>
+        <div>
+          <h2 id="folderTitle">Folder</h2>
+          <p id="folderMeta">0 items</p>
+        </div>
+      </div>
+      <section class="grid folder-grid" id="folderGrid"></section>
+    </div>
+  </section>
+
   <div class="modal-backdrop" id="modalBackdrop">
     <form class="modal" id="bookmarkForm">
       <div class="modal-head">
@@ -1154,12 +1464,21 @@
     let isDragClick = false;
     let dragPending = null;
     let dragActive = null;
+    let activeFolderId = null;
 
     const DRAG_MOUSE_THRESHOLD = 4;
     const DRAG_TOUCH_HOLD_MS = 260;
     const DRAG_TOUCH_TOLERANCE = 10;
+    const DRAG_MERGE_RADIUS_RATIO = 0.34;
+    const FOLDER_RENAME_HOLD_MS = 650;
+    const FOLDER_RENAME_TOLERANCE = 8;
 
     const grid = document.getElementById("grid");
+    const folderLayer = document.getElementById("folderLayer");
+    const folderGrid = document.getElementById("folderGrid");
+    const folderTitle = document.getElementById("folderTitle");
+    const folderMeta = document.getElementById("folderMeta");
+    const folderClose = document.getElementById("folderClose");
     const searchInput = document.getElementById("searchInput");
     const openSidebar = document.getElementById("openSidebar");
     const closeSidebar = document.getElementById("closeSidebar");
@@ -1231,12 +1550,76 @@
         .toUpperCase();
     }
 
+    function isFolder(item) {
+      return Boolean(item && item.type === "folder" && Array.isArray(item.children));
+    }
+
+    function itemCountLabel(count) {
+      return count + " " + (count === 1 ? "item" : "items");
+    }
+
+    function normalizeStoredItem(item) {
+      if (!item || typeof item !== "object") return null;
+
+      if (item.type === "folder" || Array.isArray(item.children)) {
+        const children = Array.isArray(item.children)
+          ? item.children.map(normalizeStoredItem).filter(Boolean)
+          : [];
+
+        return {
+          id: item.id || uid(),
+          type: "folder",
+          name: String(item.name || "Folder").trim().slice(0, 40) || "Folder",
+          children
+        };
+      }
+
+      if (!item.name || !item.url) return null;
+
+      return {
+        id: item.id || uid(),
+        name: String(item.name).trim().slice(0, 40),
+        url: normalizeUrl(item.url),
+        icon: String(item.icon || "").trim()
+      };
+    }
+
+    function itemSearchText(item) {
+      if (isFolder(item)) {
+        return [item.name, ...item.children.map(itemSearchText)].join(" ").toLowerCase();
+      }
+
+      return [item.name, item.url, getHostname(item.url)].join(" ").toLowerCase();
+    }
+
+    function findItemById(id, collection = bookmarks, parentFolder = null) {
+      for (let index = 0; index < collection.length; index++) {
+        const item = collection[index];
+        if (item.id === id) return { item, collection, index, parentFolder };
+
+        if (isFolder(item)) {
+          const match = findItemById(id, item.children, item);
+          if (match) return match;
+        }
+      }
+
+      return null;
+    }
+
+    function renderAll() {
+      render();
+      renderFolderLayer();
+    }
+
     function load() {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
         if (Array.isArray(saved) && saved.length) {
-          bookmarks = saved;
-          return;
+          bookmarks = saved.map(normalizeStoredItem).filter(Boolean);
+          if (bookmarks.length) {
+            save();
+            return;
+          }
         }
       } catch {}
       bookmarks = defaults.map(item => ({ id: uid(), icon: "", ...item }));
@@ -1271,93 +1654,253 @@
     function render() {
       closeMenus();
       const query = searchInput.value.trim().toLowerCase();
-      const items = bookmarks.filter(item => {
-        const haystack = [item.name, item.url, getHostname(item.url)].join(" ").toLowerCase();
-        return haystack.includes(query);
+      const items = bookmarks.filter(item => itemSearchText(item).includes(query));
+      renderCollection(grid, items, {
+        grid,
+        collection: bookmarks,
+        allowMerge: !query,
+        isRoot: true
       });
+    }
 
-      grid.innerHTML = "";
+    function renderFolderLayer() {
+      if (!activeFolderId) return;
+
+      const match = findItemById(activeFolderId);
+      if (!match || !isFolder(match.item)) {
+        closeFolderLayer();
+        return;
+      }
+
+      const folder = match.item;
+      folderTitle.textContent = folder.name;
+      folderMeta.textContent = itemCountLabel(folder.children.length);
+      renderCollection(folderGrid, folder.children, {
+        grid: folderGrid,
+        collection: folder.children,
+        allowMerge: false,
+        isRoot: false,
+        parentFolderId: folder.id
+      });
+    }
+
+    function renderCollection(targetGrid, items, context) {
+      targetGrid.innerHTML = "";
 
       if (!items.length) {
         const empty = document.createElement("div");
         empty.className = "empty";
-        empty.innerHTML = "<h2>No bookmarks found</h2><p>Add a new link or change the search.</p>";
-        grid.appendChild(empty);
+        empty.innerHTML = targetGrid === folderGrid
+          ? "<h2>Empty folder</h2><p>0 items</p>"
+          : "<h2>No bookmarks found</h2><p>Add a new link or change the search.</p>";
+        targetGrid.appendChild(empty);
         return;
       }
 
       for (const item of items) {
-        const card = document.createElement("article");
-        card.className = "card";
-        card.tabIndex = 0;
-        card.dataset.id = item.id;
-        card.setAttribute("role", "link");
-        card.setAttribute("aria-label", "Open " + item.name);
+        targetGrid.appendChild(createCard(item, context));
+      }
+    }
 
-        const menuButton = document.createElement("button");
-        menuButton.className = "menu-btn";
-        menuButton.type = "button";
-        menuButton.setAttribute("aria-label", "Options for " + item.name);
-        menuButton.innerHTML = "<span></span>";
+    function createFallbackIcon(item) {
+      const fallback = document.createElement("div");
+      fallback.className = "fallback-icon";
+      fallback.textContent = initials(item.name);
+      return fallback;
+    }
 
-        const menu = document.createElement("div");
-        menu.className = "card-menu";
-        menu.innerHTML = `
+    function appendLinkIcon(iconWrap, item) {
+      const img = document.createElement("img");
+      img.alt = "";
+      img.src = item.icon ? item.icon : faviconUrl(item.url);
+      img.referrerPolicy = "no-referrer";
+      img.draggable = false;
+      img.onerror = () => {
+        iconWrap.innerHTML = "";
+        iconWrap.appendChild(createFallbackIcon(item));
+      };
+      iconWrap.appendChild(img);
+    }
+
+    function createFolderPreview(folder) {
+      const preview = document.createElement("div");
+      preview.className = "folder-preview";
+
+      for (let i = 0; i < 4; i++) {
+        const child = folder.children[i];
+        const mini = document.createElement("div");
+        mini.className = "folder-mini";
+
+        if (child) {
+          if (isFolder(child)) {
+            mini.appendChild(createFallbackIcon(child));
+          } else {
+            const img = document.createElement("img");
+            img.alt = "";
+            img.src = child.icon ? child.icon : faviconUrl(child.url);
+            img.referrerPolicy = "no-referrer";
+            img.draggable = false;
+            img.onerror = () => {
+              mini.innerHTML = "";
+              mini.appendChild(createFallbackIcon(child));
+            };
+            mini.appendChild(img);
+          }
+        } else {
+          mini.classList.add("empty");
+        }
+
+        preview.appendChild(mini);
+      }
+
+      return preview;
+    }
+
+    function createCard(item, context) {
+      const folder = isFolder(item);
+      const card = document.createElement("article");
+      card.className = folder ? "card folder-card" : "card";
+      card.tabIndex = 0;
+      card.dataset.id = item.id;
+      card.dataset.type = folder ? "folder" : "link";
+      card.setAttribute("role", folder ? "button" : "link");
+      card.setAttribute("aria-label", (folder ? "Open folder " : "Open ") + item.name);
+
+      const menuButton = document.createElement("button");
+      menuButton.className = "menu-btn";
+      menuButton.type = "button";
+      menuButton.setAttribute("aria-label", "Options for " + item.name);
+      menuButton.innerHTML = "<span></span>";
+
+      const menu = document.createElement("div");
+      menu.className = "card-menu";
+      menu.innerHTML = folder
+        ? `
+          <button type="button" data-action="rename">Rename</button>
+          <button type="button" class="danger" data-action="delete">Delete</button>
+        `
+        : `
           <button type="button" data-action="edit">Edit</button>
           <button type="button" class="danger" data-action="delete">Delete</button>
         `;
 
-        const iconWrap = document.createElement("div");
-        iconWrap.className = "icon-wrap";
-
-        const img = document.createElement("img");
-        img.alt = "";
-        img.src = item.icon ? item.icon : faviconUrl(item.url);
-        img.referrerPolicy = "no-referrer";
-        img.draggable = false;
-        img.onerror = () => {
-          iconWrap.innerHTML = `<div class="fallback-icon">${initials(item.name)}</div>`;
-        };
-        iconWrap.appendChild(img);
-
-        const name = document.createElement("h3");
-        name.className = "name";
-        name.textContent = item.name;
-
-        const domain = document.createElement("p");
-        domain.className = "domain";
-        domain.textContent = getHostname(item.url);
-
-        card.append(menuButton, menu, iconWrap, name, domain);
-
-        card.addEventListener("click", event => {
-          if (isDragClick) { isDragClick = false; return; }
-          if (event.target.closest("button") || event.target.closest(".card-menu")) return;
-          window.open(normalizeUrl(item.url), "_blank", "noopener,noreferrer");
-        });
-
-        card.addEventListener("keydown", event => {
-          if (event.key === "Enter") window.open(normalizeUrl(item.url), "_blank", "noopener,noreferrer");
-        });
-
-        menuButton.addEventListener("click", event => {
-          event.stopPropagation();
-          const wasOpen = menu.classList.contains("open");
-          closeMenus();
-          if (!wasOpen) menu.classList.add("open");
-        });
-
-        menu.addEventListener("click", event => {
-          event.stopPropagation();
-          const action = event.target.dataset.action;
-          if (action === "edit") openModal(item);
-          if (action === "delete") deleteBookmark(item.id);
-        });
-
-        initCardDrag(card, item);
-
-        grid.appendChild(card);
+      const iconWrap = document.createElement("div");
+      iconWrap.className = "icon-wrap";
+      if (folder) {
+        iconWrap.appendChild(createFolderPreview(item));
+      } else {
+        appendLinkIcon(iconWrap, item);
       }
+
+      const name = document.createElement("h3");
+      name.className = "name";
+      name.textContent = item.name;
+
+      const domain = document.createElement("p");
+      domain.className = "domain";
+      domain.textContent = folder ? itemCountLabel(item.children.length) : getHostname(item.url);
+
+      card.append(menuButton, menu, iconWrap, name, domain);
+
+      card.addEventListener("click", event => {
+        if (isDragClick) { isDragClick = false; return; }
+        if (event.target.closest("button") || event.target.closest(".card-menu")) return;
+        if (folder) {
+          openFolderLayer(item.id);
+        } else {
+          window.open(normalizeUrl(item.url), "_blank", "noopener,noreferrer");
+        }
+      });
+
+      card.addEventListener("keydown", event => {
+        if (event.key !== "Enter") return;
+        if (folder) {
+          openFolderLayer(item.id);
+        } else {
+          window.open(normalizeUrl(item.url), "_blank", "noopener,noreferrer");
+        }
+      });
+
+      menuButton.addEventListener("click", event => {
+        event.stopPropagation();
+        const wasOpen = menu.classList.contains("open");
+        closeMenus();
+        if (!wasOpen) menu.classList.add("open");
+      });
+
+      menu.addEventListener("click", event => {
+        event.stopPropagation();
+        const action = event.target.dataset.action;
+        if (action === "edit") openModal(item);
+        if (action === "rename") renameFolder(item.id);
+        if (action === "delete") deleteBookmark(item.id);
+      });
+
+      if (folder) initFolderRenameHold(card, item);
+      initCardDrag(card, item, context);
+
+      return card;
+    }
+
+    function openFolderLayer(id) {
+      const match = findItemById(id);
+      if (!match || !isFolder(match.item)) return;
+      closeMenus();
+      activeFolderId = id;
+      folderLayer.classList.add("open");
+      folderLayer.setAttribute("aria-hidden", "false");
+      renderFolderLayer();
+      setTimeout(() => folderClose.focus(), 0);
+    }
+
+    function closeFolderLayer() {
+      activeFolderId = null;
+      folderLayer.classList.remove("open");
+      folderLayer.setAttribute("aria-hidden", "true");
+      folderGrid.innerHTML = "";
+    }
+
+    function cancelPendingDragForCard(card) {
+      if (!dragPending || dragPending.card !== card) return;
+      cleanupPendingListeners(dragPending);
+      if (dragPending.timer) clearTimeout(dragPending.timer);
+      dragPending = null;
+    }
+
+    function initFolderRenameHold(card, item) {
+      card.addEventListener("pointerdown", event => {
+        if (event.pointerType === "mouse" && event.button !== 0) return;
+        if (event.target.closest(".menu-btn") || event.target.closest(".card-menu")) return;
+
+        const startX = event.clientX;
+        const startY = event.clientY;
+        let timer = null;
+
+        const cleanup = () => {
+          if (timer) clearTimeout(timer);
+          document.removeEventListener("pointermove", onMove);
+          document.removeEventListener("pointerup", cleanup);
+          document.removeEventListener("pointercancel", cleanup);
+        };
+
+        const onMove = moveEvent => {
+          const dist = Math.hypot(moveEvent.clientX - startX, moveEvent.clientY - startY);
+          if (dist > FOLDER_RENAME_TOLERANCE) cleanup();
+        };
+
+        timer = setTimeout(() => {
+          if (dragActive) return;
+          cleanup();
+          cancelPendingDragForCard(card);
+          isDragClick = true;
+          renameFolder(item.id);
+          setTimeout(() => { isDragClick = false; }, 0);
+        }, FOLDER_RENAME_HOLD_MS);
+
+        document.addEventListener("pointermove", onMove);
+        document.addEventListener("pointerup", cleanup);
+        document.addEventListener("pointercancel", cleanup);
+      });
     }
 
     // ============ Drag & drop reordering ============
@@ -1369,11 +1912,11 @@
     // through the grid, so CSS Grid handles the reflow and a lightweight
     // FLIP pass animates the other icons sliding out of the way.
 
-    function initCardDrag(card, item) {
-      card.addEventListener("pointerdown", event => startPendingDrag(event, card, item));
+    function initCardDrag(card, item, context) {
+      card.addEventListener("pointerdown", event => startPendingDrag(event, card, item, context));
     }
 
-    function startPendingDrag(event, card, item) {
+    function startPendingDrag(event, card, item, context) {
       if (dragPending || dragActive) return;
       if (event.pointerType === "mouse" && event.button !== 0) return;
       if (event.target.closest(".menu-btn") || event.target.closest(".card-menu")) return;
@@ -1386,7 +1929,8 @@
         startX: event.clientX,
         startY: event.clientY,
         pointerType: event.pointerType || "mouse",
-        timer: null
+        timer: null,
+        context
       };
 
       pending.moveFn = moveEvent => onPendingMove(moveEvent, pending);
@@ -1447,11 +1991,14 @@
       dragActive = {
         pointerId: pending.pointerId,
         card: pending.card,
+        item: pending.item,
+        context: pending.context,
         ghost,
         startX: pending.startX,
         startY: pending.startY,
         lastTargetEl: null,
-        lastPlaceBefore: null
+        lastPlaceBefore: null,
+        lastDropMode: null
       };
 
       if (navigator.vibrate) {
@@ -1485,20 +2032,34 @@
       const target = findDropTarget(x, y, dragActive.card, {
         element: dragActive.lastTargetEl,
         placeBefore: dragActive.lastPlaceBefore
-      });
-      if (!target.element) return;
-      if (target.element === dragActive.lastTargetEl && target.placeBefore === dragActive.lastPlaceBefore) return;
+      }, dragActive.context.grid, dragActive.context.allowMerge);
+      if (!target.element) {
+        clearDragHighlights();
+        dragActive.lastTargetEl = null;
+        dragActive.lastPlaceBefore = null;
+        dragActive.lastDropMode = null;
+        return;
+      }
+      const sameTarget = target.element === dragActive.lastTargetEl
+        && target.placeBefore === dragActive.lastPlaceBefore
+        && target.mode === dragActive.lastDropMode;
+      if (sameTarget) return;
 
+      clearDragHighlights();
       dragActive.lastTargetEl = target.element;
       dragActive.lastPlaceBefore = target.placeBefore;
+      dragActive.lastDropMode = target.mode;
+      dragActive.ghost.classList.add(target.mode === "merge" ? "drop-merge-target" : "drop-move-target");
+
+      if (target.mode === "merge") return;
 
       flipReorder(() => {
         if (target.placeBefore) {
-          grid.insertBefore(dragActive.card, target.element);
+          dragActive.context.grid.insertBefore(dragActive.card, target.element);
         } else {
-          grid.insertBefore(dragActive.card, target.element.nextSibling);
+          dragActive.context.grid.insertBefore(dragActive.card, target.element.nextSibling);
         }
-      }, dragActive.card);
+      }, dragActive.card, dragActive.context.grid);
     }
 
     // Current target gets a distance "discount" so a neighbor has to be
@@ -1509,8 +2070,14 @@
     const DRAG_STICKY_MARGIN = 24;
     const DRAG_EDGE_HYSTERESIS = 20;
 
-    function findDropTarget(x, y, excludeEl, current) {
-      const cards = [...grid.querySelectorAll(".card")].filter(el => el !== excludeEl);
+    function clearDragHighlights() {
+      document.querySelectorAll(".drop-move-target, .drop-merge-target").forEach(el => {
+        el.classList.remove("drop-move-target", "drop-merge-target");
+      });
+    }
+
+    function findDropTarget(x, y, excludeEl, current, gridEl, allowMerge) {
+      const cards = [...gridEl.querySelectorAll(".card")].filter(el => el !== excludeEl);
       let nearest = null;
       let nearestDist = Infinity;
 
@@ -1522,11 +2089,21 @@
         if (current && el === current.element) dist -= DRAG_STICKY_MARGIN;
         if (dist < nearestDist) {
           nearestDist = dist;
-          nearest = { element: el, cx };
+          nearest = { element: el, cx, cy, rect };
         }
       }
 
-      if (!nearest) return { element: null, placeBefore: true };
+      if (!nearest) return { element: null, placeBefore: true, mode: "move" };
+
+      const mergeRadius = Math.min(nearest.rect.width, nearest.rect.height) * DRAG_MERGE_RADIUS_RATIO;
+      const inMergeZone = allowMerge && Math.hypot(x - nearest.cx, y - nearest.cy) <= mergeRadius;
+      if (inMergeZone) {
+        return {
+          element: nearest.element,
+          placeBefore: current && current.element === nearest.element ? current.placeBefore : true,
+          mode: "merge"
+        };
+      }
 
       let placeBefore;
       if (current && nearest.element === current.element) {
@@ -1537,11 +2114,11 @@
         placeBefore = x < nearest.cx;
       }
 
-      return { element: nearest.element, placeBefore };
+      return { element: nearest.element, placeBefore, mode: "move" };
     }
 
-    function flipReorder(mutate, excludeEl) {
-      const cards = [...grid.querySelectorAll(".card")].filter(el => el !== excludeEl);
+    function flipReorder(mutate, excludeEl, gridEl = grid) {
+      const cards = [...gridEl.querySelectorAll(".card")].filter(el => el !== excludeEl);
       const firstRects = new Map(cards.map(el => [el, el.getBoundingClientRect()]));
 
       mutate();
@@ -1584,8 +2161,13 @@
     }
 
     function finishDrag() {
-      const { card, ghost } = dragActive;
+      const active = dragActive;
+      const { card, ghost, context } = active;
+      const mergeTargetId = active.lastDropMode === "merge" && active.lastTargetEl
+        ? active.lastTargetEl.dataset.id
+        : null;
 
+      clearDragHighlights();
       ghost.remove();
       card.classList.remove("card-placeholder");
       card.classList.add("card-drop-settle");
@@ -1594,14 +2176,25 @@
       card.style.touchAction = "";
       setTimeout(() => card.classList.remove("card-drop-settle"), 220);
 
-      const newOrder = [...grid.querySelectorAll(".card")].map(el => el.dataset.id).filter(Boolean);
+      if (mergeTargetId && mergeItems(card.dataset.id, mergeTargetId, context)) {
+        save();
+        dragActive = null;
+        isDragClick = true;
+        renderAll();
+        setTimeout(() => { isDragClick = false; }, 0);
+        return;
+      }
 
-      if (newOrder.length === bookmarks.length) {
-        const byId = new Map(bookmarks.map(b => [b.id, b]));
+      const newOrder = [...context.grid.querySelectorAll(".card")].map(el => el.dataset.id).filter(Boolean);
+      const collection = context.collection;
+
+      if (newOrder.length === collection.length) {
+        const byId = new Map(collection.map(b => [b.id, b]));
         const reordered = newOrder.map(id => byId.get(id)).filter(Boolean);
-        if (reordered.length === bookmarks.length) {
-          bookmarks = reordered;
+        if (reordered.length === collection.length) {
+          collection.splice(0, collection.length, ...reordered);
           save();
+          if (activeFolderId) render();
         }
       }
 
@@ -1610,7 +2203,52 @@
       setTimeout(() => { isDragClick = false; }, 0);
     }
 
+    function folderChildrenFor(item) {
+      return isFolder(item) ? item.children : [item];
+    }
+
+    function replacePairWithFolder(collection, sourceIndex, targetIndex, folder) {
+      const insertIndex = targetIndex - (sourceIndex < targetIndex ? 1 : 0);
+      [sourceIndex, targetIndex]
+        .sort((a, b) => b - a)
+        .forEach(index => collection.splice(index, 1));
+      collection.splice(insertIndex, 0, folder);
+    }
+
+    function mergeItems(sourceId, targetId, context) {
+      if (!context.allowMerge || sourceId === targetId) return false;
+
+      const collection = context.collection;
+      const sourceIndex = collection.findIndex(item => item.id === sourceId);
+      const targetIndex = collection.findIndex(item => item.id === targetId);
+      if (sourceIndex < 0 || targetIndex < 0) return false;
+
+      const source = collection[sourceIndex];
+      const target = collection[targetIndex];
+      if (!source || !target) return false;
+
+      if (isFolder(target)) {
+        target.children.push(...folderChildrenFor(source));
+        collection.splice(sourceIndex, 1);
+        return true;
+      }
+
+      const folder = {
+        id: uid(),
+        type: "folder",
+        name: "Folder",
+        children: [target, ...folderChildrenFor(source)]
+      };
+      replacePairWithFolder(collection, sourceIndex, targetIndex, folder);
+      return true;
+    }
+
     function openModal(item = null) {
+      if (item && isFolder(item)) {
+        renameFolder(item.id);
+        return;
+      }
+
       closeMenus();
       editingId = item ? item.id : null;
       modalTitle.textContent = item ? "Edit Link" : "Add Link";
@@ -1627,13 +2265,31 @@
       editingId = null;
     }
 
-    function deleteBookmark(id) {
-      const item = bookmarks.find(bookmark => bookmark.id === id);
-      if (!item) return;
-      if (!confirm(`Delete "${item.name}"?`)) return;
-      bookmarks = bookmarks.filter(bookmark => bookmark.id !== id);
+    function renameFolder(id) {
+      closeMenus();
+      const match = findItemById(id);
+      if (!match || !isFolder(match.item)) return;
+
+      const nextName = prompt("Folder name", match.item.name);
+      if (nextName === null) return;
+
+      const name = nextName.trim().slice(0, 40);
+      if (!name) return;
+
+      match.item.name = name;
       save();
-      render();
+      renderAll();
+    }
+
+    function deleteBookmark(id) {
+      const match = findItemById(id);
+      if (!match) return;
+      const item = match.item;
+      if (!confirm(`Delete "${item.name}"?`)) return;
+      match.collection.splice(match.index, 1);
+      if (activeFolderId === id) closeFolderLayer();
+      save();
+      renderAll();
     }
 
     bookmarkForm.addEventListener("submit", event => {
@@ -1648,14 +2304,15 @@
       if (!data.name || !data.url) return;
 
       if (editingId) {
-        bookmarks = bookmarks.map(item => item.id === editingId ? { ...item, ...data } : item);
+        const match = findItemById(editingId);
+        if (match && !isFolder(match.item)) Object.assign(match.item, data);
       } else {
         bookmarks.unshift({ id: uid(), ...data });
       }
 
       save();
       closeModalNow();
-      render();
+      renderAll();
     });
 
     searchInput.addEventListener("input", render);
@@ -1674,6 +2331,11 @@
     });
     closeModal.addEventListener("click", closeModalNow);
     cancelButton.addEventListener("click", closeModalNow);
+    folderClose.addEventListener("click", closeFolderLayer);
+
+    folderLayer.addEventListener("click", event => {
+      if (event.target === folderLayer) closeFolderLayer();
+    });
 
     modalBackdrop.addEventListener("click", event => {
       if (event.target === modalBackdrop) closeModalNow();
@@ -1692,7 +2354,11 @@
       if (event.key === "Escape") {
         closeMenus();
         if (sidebar.classList.contains("open")) closeSidebarNow();
-        if (modalBackdrop.classList.contains("open")) closeModalNow();
+        if (modalBackdrop.classList.contains("open")) {
+          closeModalNow();
+        } else if (folderLayer.classList.contains("open")) {
+          closeFolderLayer();
+        }
       }
     });
 
@@ -1717,16 +2383,11 @@
       try {
         const imported = JSON.parse(await file.text());
         if (!Array.isArray(imported)) throw new Error("Invalid file");
-        bookmarks = imported
-          .filter(item => item && item.name && item.url)
-          .map(item => ({
-            id: item.id || uid(),
-            name: String(item.name).trim(),
-            url: normalizeUrl(item.url),
-            icon: String(item.icon || "").trim()
-          }));
+        bookmarks = imported.map(normalizeStoredItem).filter(Boolean);
+        if (!bookmarks.length) throw new Error("Invalid file");
+        closeFolderLayer();
         save();
-        render();
+        renderAll();
       } catch {
         alert("Could not import this JSON file.");
       } finally {
@@ -1738,7 +2399,8 @@
       if (!confirm("Reset all bookmarks to the default list?")) return;
       localStorage.removeItem(STORAGE_KEY);
       load();
-      render();
+      closeFolderLayer();
+      renderAll();
       closeSidebarNow();
     });
 
