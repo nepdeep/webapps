@@ -525,19 +525,45 @@
       user-drag: none;
     }
 
+    /* Letters and emoji float free - no tile, no plate, no box. */
     .fallback-icon {
       width: 45px;
       height: 45px;
-      border-radius: 8px;
+      border-radius: 0;
       display: grid;
       place-items: center;
-      background: linear-gradient(135deg, rgba(0, 255, 157, 0.92), rgba(0, 245, 212, 0.82));
-      color: #000;
+      background: none;
+      color: var(--neon-green);
       font-family: var(--font-display);
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      box-shadow: none;
+      text-shadow: 0 0 16px rgba(0, 255, 157, 0.38), 0 6px 14px rgba(0, 0, 0, 0.45);
+      user-select: none;
+    }
+
+    body.light-mode .fallback-icon {
+      color: #0b8f63;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    }
+
+    .fallback-icon.is-emoji {
+      color: initial;
+      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
+      font-weight: 400;
+      font-size: 34px;
       letter-spacing: 0;
-      box-shadow: 0 0 18px rgba(0, 255, 157, 0.22);
+      text-shadow: 0 6px 14px rgba(0, 0, 0, 0.42);
+    }
+
+    /* Wrapper loses its frame whenever it holds a glyph instead of an image. */
+    .icon-wrap.glyph-mode {
+      background: none;
+      border-color: transparent;
+      box-shadow: none;
+      overflow: visible;
     }
 
     .folder-card .icon-wrap {
@@ -590,6 +616,16 @@
 
     .folder-mini .fallback-icon {
       font-size: 9px;
+      text-shadow: none;
+    }
+
+    .folder-mini .fallback-icon.is-emoji {
+      font-size: 13px;
+    }
+
+    .folder-mini.glyph-mode {
+      background: none;
+      border-color: transparent;
     }
 
     .name {
@@ -851,7 +887,11 @@
     }
 
     .folder-grid .fallback-icon {
-      font-size: 24px;
+      font-size: 32px;
+    }
+
+    .folder-grid .fallback-icon.is-emoji {
+      font-size: 40px;
     }
 
     .folder-grid .name {
@@ -1137,8 +1177,16 @@
         font-size: 7px;
       }
 
+      .folder-mini .fallback-icon.is-emoji {
+        font-size: 10px;
+      }
+
       .fallback-icon {
-        font-size: 17px;
+        font-size: 19px;
+      }
+
+      .fallback-icon.is-emoji {
+        font-size: 24px;
       }
 
       .name {
@@ -1216,7 +1264,11 @@
       }
 
       .folder-grid .fallback-icon {
-        font-size: 18px;
+        font-size: 22px;
+      }
+
+      .folder-grid .fallback-icon.is-emoji {
+        font-size: 28px;
       }
 
       .folder-grid .name {
@@ -1278,7 +1330,11 @@
       }
 
       .fallback-icon {
-        font-size: 16px;
+        font-size: 18px;
+      }
+
+      .fallback-icon.is-emoji {
+        font-size: 22px;
       }
 
       .name {
@@ -1421,10 +1477,10 @@
         </label>
 
         <label>
-          Icon URL
-          <input id="iconInput" placeholder="Optional. Leave empty to auto-detect favicon." />
+          Icon (URL, emoji or letters)
+          <input id="iconInput" placeholder="Image URL, emoji (🚀) or letters (AB). Empty = auto favicon." />
         </label>
-        <div class="hint">Tip: paste a direct image URL for a custom icon, or leave empty.</div>
+        <div class="hint">Tip: paste an image URL, or type an emoji / 1-3 letters for a transparent floating glyph.</div>
       </div>
 
       <div class="actions">
@@ -1702,14 +1758,39 @@
       }
     }
 
+    const EMOJI_RE = /\p{Extended_Pictographic}|\p{Regional_Indicator}/u;
+
+    // An icon value is a glyph (not a URL) when it is a short literal string:
+    // an emoji, or one to three letters typed straight into the Icon field.
+    function glyphIcon(raw) {
+      const value = String(raw || "").trim();
+      if (!value) return "";
+      if (/^(https?:|data:|blob:|\/\/|\/|\.)/i.test(value)) return "";
+      if (/\s/.test(value)) return "";
+      if (EMOJI_RE.test(value)) return Array.from(value).slice(0, 2).join("");
+      if (value.includes(".")) return "";
+      return value.length <= 3 ? value.toUpperCase() : "";
+    }
+
+    function makeGlyph(text) {
+      const el = document.createElement("div");
+      el.className = EMOJI_RE.test(text) ? "fallback-icon is-emoji" : "fallback-icon";
+      el.textContent = text;
+      return el;
+    }
+
     function createFallbackIcon(item) {
-      const fallback = document.createElement("div");
-      fallback.className = "fallback-icon";
-      fallback.textContent = initials(item.name);
-      return fallback;
+      return makeGlyph(glyphIcon(item.icon) || initials(item.name));
     }
 
     function appendLinkIcon(iconWrap, item) {
+      const glyph = glyphIcon(item.icon);
+      if (glyph) {
+        iconWrap.classList.add("glyph-mode");
+        iconWrap.appendChild(makeGlyph(glyph));
+        return;
+      }
+
       const img = document.createElement("img");
       img.alt = "";
       img.src = item.icon ? item.icon : faviconUrl(item.url);
@@ -1717,6 +1798,7 @@
       img.draggable = false;
       img.onerror = () => {
         iconWrap.innerHTML = "";
+        iconWrap.classList.add("glyph-mode");
         iconWrap.appendChild(createFallbackIcon(item));
       };
       iconWrap.appendChild(img);
@@ -1732,8 +1814,13 @@
         mini.className = "folder-mini";
 
         if (child) {
+          const childGlyph = isFolder(child) ? "" : glyphIcon(child.icon);
           if (isFolder(child)) {
+            mini.classList.add("glyph-mode");
             mini.appendChild(createFallbackIcon(child));
+          } else if (childGlyph) {
+            mini.classList.add("glyph-mode");
+            mini.appendChild(makeGlyph(childGlyph));
           } else {
             const img = document.createElement("img");
             img.alt = "";
@@ -1742,6 +1829,7 @@
             img.draggable = false;
             img.onerror = () => {
               mini.innerHTML = "";
+              mini.classList.add("glyph-mode");
               mini.appendChild(createFallbackIcon(child));
             };
             mini.appendChild(img);
