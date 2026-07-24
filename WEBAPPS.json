@@ -1,0 +1,98 @@
+[
+  {
+    "id": "e6f38956-dda2-4995-a7cf-1aaef45c5495",
+    "name": "Linux Auto Task",
+    "url": "http://45.76.37.177:7979/",
+    "icon": "🐧"
+  },
+  {
+    "id": "b2cff9e1-ab74-461d-b720-5ee778a4a81e",
+    "name": "BTC-claude",
+    "url": "https://nepdeep.github.io/btc-claude/",
+    "icon": "🪙"
+  },
+  {
+    "id": "739e7fb8-213b-4000-a2be-d23a864fe5b1",
+    "name": "BTC-CHAT",
+    "url": "https://nepdeep.github.io/btc-chat/",
+    "icon": "💬"
+  },
+  {
+    "id": "f757770c-5b11-4861-a0ff-9f29d9aaebb2",
+    "name": "Letters Type",
+    "url": "https://nepdeep.github.io/letter/",
+    "icon": "⌨️"
+  },
+  {
+    "id": "3fd59c13-9f46-4690-b795-76315493cf9c",
+    "name": "Neck",
+    "url": "https://nepdeep.github.io/neck/",
+    "icon": "💆"
+  },
+  {
+    "id": "11776a21-2609-496f-afb3-510d43b877ff",
+    "name": "Septic",
+    "url": "https://nepdeep.github.io/septic/",
+    "icon": "🚽"
+  },
+  {
+    "id": "d8639266-7203-4447-9aec-51e3fd53daa8",
+    "name": "Weather",
+    "url": "https://nepdeep.github.io/weather/",
+    "icon": "🌦️"
+  },
+  {
+    "id": "2c1d39f7-ed41-46a4-84ef-357ba4257c4d",
+    "name": "Portfolio",
+    "url": "https://nepdeep.github.io/portfolio/",
+    "icon": "💼"
+  },
+  {
+    "id": "2ac99167-7a8f-4ca4-b339-3c06690ceb99",
+    "name": "Travel Checklist",
+    "url": "https://nepdeep.github.io/travel/",
+    "icon": "🧳"
+  },
+  {
+    "id": "9971e73e-2faf-46be-a78f-bdbd357e35b1",
+    "name": "Timer App",
+    "url": "https://nepdeep.github.io/Timer/",
+    "icon": "⏱️"
+  },
+  {
+    "id": "49fe82b0-8246-44b3-aba1-db0ec1279725",
+    "name": "Fun Learn",
+    "url": "https://nepdeep.github.io/funlearn/",
+    "icon": "🎓"
+  },
+  {
+    "id": "d4753fa0-87d1-44ae-ad69-40cf5d24518b",
+    "name": "Memory Magic Game",
+    "url": "https://nepdeep.github.io/Memorygame/",
+    "icon": "🃏"
+  },
+  {
+    "id": "f7477254-442a-47b4-96d9-721dee5f53f3",
+    "name": "AI Prompt",
+    "url": "https://nepdeep.github.io/prompts/",
+    "icon": "🧠"
+  },
+  {
+    "id": "4f2bed5a-6341-47a5-b260-9648a96fb4d4",
+    "name": "Restaurant POS",
+    "url": "http://45.76.37.177:5050/",
+    "icon": "🍽️"
+  },
+  {
+    "id": "425d16c2-5c44-4b48-a6c1-4e3bb15e52e6",
+    "name": "GitHub",
+    "url": "https://github.com/nepdeep",
+    "icon": "🐙"
+  },
+  {
+    "id": "3be39653-2607-498d-9fc7-9bcf959d6124",
+    "name": "Vulture Server",
+    "url": "https://console.vultr.com/billing/#billinghistory",
+    "icon": "🖥️"
+  }
+]
